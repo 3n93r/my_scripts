@@ -1,0 +1,58 @@
+#!/bin/bash
+
+
+echo '' > sublister.txt
+echo '' > subfinder.txt
+echo '' > assetfinder.txt
+echo '' > fin_subD.txt
+echo '' > htpxD.txt
+echo '' > wybk.txt
+
+#================make sure that the first paramtere is the domain link while running the script=================
+
+echo -e "\n\n\e[33msublist3r->\e[0m"
+sublist3r -d $1 -o sublister.txt
+#sleep 1
+
+echo -e "\n\n\e[33msubfinder->\e[0m"
+subfinder -d $1 -o subfinder.txt
+#sleep 1
+
+echo -e "\n\n\e[33massetfinder->\e[0m"
+assetfinder $1 | tee assetfinder.txt
+#sleep 3
+
+#sorting all the subdomains
+cat sublister.txt subfinder.txt assetfinder.txt | sort -u > fin_subD.txt
+
+echo -e "\n\n\e[33mhtpxD.txt->\e[0m"
+#getting live subdomains
+cat fin_subD.txt | httpx > htpxD.txt
+
+#getting all the endpoints of the live subdomains
+cat htpxD.txt | waybackurls > wybk.txt
+
+echo -e "\n\n\e[33mLivEndPts.txt->\e[0m"
+#can try httpx on wybk.txt again to get the live endpoints :) 
+cat wybk.txt | httpx > livEndPts.txt
+
+echo -e "\n\n\e[33m200Endptd->\e[0m"
+#filtering and saving the endpoints in differnt files
+cat wybk.txt | httpx -mc 200 > 200EndPts.txt
+
+echo -e "\n\n\e[33m301Endptd->\e[0m"
+cat wybk.txt | httpx -mc 301 > 301EndPts.txt
+
+echo -e "\n\n\e[33m403Endptd->\e[0m"
+cat wybk.txt | httpx -mc 403 > 403EndPts.txt
+
+echo -e "\n\n\e[33m404Endptd->\e[0m"
+cat wybk.txt | httpx -mc 404 > 404EndPts.txt
+
+
+#next we can go with grep cmds to filter out the vulnerable points 
+cat livEndPts.txt | grep 'admin' > adminEndPts.txt
+cat livEndPts.txt | grep 'id' > idEndPts.txt
+cat livEndPts.txt | grep 'dev' > devEndPts.txt
+
+#try whatweb,nuclei
