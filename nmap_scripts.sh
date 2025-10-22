@@ -25,3 +25,5 @@ fi
 
 echo ""
 done #the looop ends here
+
+#make it such that we can push the file with namp results and the code will pick the services and search for it
