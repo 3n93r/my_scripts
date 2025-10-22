@@ -6,7 +6,7 @@ read -p "please enter the script name (at least the part of it that you remember
 #counting the number of times the word was repeated
 count=$(grep -c "$wrd" /usr/share/nmap/scripts/script.db)
 if (( $count > 1 ));then
-echo -e "\nthe word '$wrd' can is found in \e[1;31m$count\e[0m lines"
+echo -e "\nthe word '\e[1;31m$wrd\e[0m'is found in \e[1;31m$count\e[0m lines"
 fi
 
 #printing out the lines that has the word for reference 
