@@ -46,3 +46,6 @@ done < service_lst.txt #end of first while loop
 
 
 echo -e "there are \e[1;31m$cnt\e[0m known services"
+
+#the search looks like the search made is rigid and if it does not find the nse script 
+#with full name with the service it will not print it out 
