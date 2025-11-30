@@ -7,6 +7,7 @@ echo '' > tempo_file.txt #a temp file to hold the lines that have names similar 
 
 read -p "Enter the IP address: " ip
 if [[ ! $ip =~ ([0-9]{1,3}\.){3}([0-9]{1,3}) ]];then
+
 #have to write a script to check for correct ip address
 echo "please enter the correct ip"
 exit
